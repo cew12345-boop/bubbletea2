@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【小學國語六上】第六課：珍珠奶茶互動教學網</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 14px; /* 設定底層字級為 14px */
+        }
+        .font-mono-tech {
+            font-family: 'Share Tech Mono', 'Noto Sans TC', monospace;
+        }
+        /* 科技藍圖風格背景 */
+        .blueprint-bg {
+            background-color: #0f172a;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        /* 滾水起泡動畫 */
+        @keyframes bubble {
+            0% { transform: translateY(0px) scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
+        }
+        .boiling-bubble {
+            animation: bubble 1.2s infinite ease-out;
+        }
+        /* 旋轉攪拌動畫 */
+        @keyframes stir {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+            100% { transform: rotate(-15deg); }
+        }
+        .stirring-active {
+            animation: stir 0.6s infinite ease-in-out alternate;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- 頁首與導覽 -->
+    <header class="bg-amber-100 shadow-md border-b-2 border-amber-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl animate-bounce">🧋</span>
+                <div>
+                    <h1 class="font-bold text-xl text-amber-900">國語六上第六課：珍珠奶茶</h1>
+                    <p class="text-sm text-amber-700 font-medium">跨領域「資訊結構工程」時序演算法學習平台</p>
+                </div>
+            </div>
+            <nav class="flex space-x-1 md:space-x-2">
+                <button onclick="switchTab('explore')" id="btn-explore" class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-amber-600 text-white">知識探索</button>
+                <button onclick="switchTab('lab')" id="btn-lab" class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-amber-800 hover:bg-amber-200 flex items-center gap-1">
+                    <i data-lucide="cpu" class="w-4 h-4"></i>結構演算法室
+                </button>
+                <button onclick="switchTab('challenge')" id="btn-challenge" class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-amber-800 hover:bg-amber-200">學習挑戰賽</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 浮動通知提示框 (替代原生的 alert) -->
+    <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- 主內容區 -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <!-- ==================== 頁面一：知識探索 ==================== -->
+        <section id="tab-explore" class="tab-content block space-y-8 animate-fadeIn">
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100">
+                <div class="flex items-center space-x-2 mb-4 text-amber-800">
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold">課文核心：珍奶演進史</h2>
+                </div>
+                <p class="text-slate-600 mb-6 leading-relaxed text-base">
+                    茶與奶的結合可以追溯到唐朝文成公主，然而在一九八〇年代，臺灣人將冰紅茶、牛奶、糖與粉圓結合，創造了現代的「珍珠奶茶」。今天，珍珠奶茶已風行全球，成為代表臺灣的另類「臺灣之光」！
+                </p>
+                
+                <!-- 歷史時間軸 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-amber-50/50 p-5 rounded-xl border border-amber-100 relative overflow-hidden">
+                        <div class="text-sm font-bold text-amber-700 bg-amber-200/50 px-2 py-1 rounded w-fit mb-2">起源：唐朝</div>
+                        <h3 class="font-bold text-lg mb-2">文成公主與松贊干布</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">文成公主將茶葉傳入西藏，與當地人用牛奶、羊奶熬煮茶。被譽為「寧可三日無糧，不可一日無茶」。</p>
+                    </div>
+                    <div class="bg-amber-50/50 p-5 rounded-xl border border-amber-100 relative overflow-hidden">
+                        <div class="text-sm font-bold text-amber-700 bg-amber-200/50 px-2 py-1 rounded w-fit mb-2">創新：1980年代</div>
+                        <h3 class="font-bold text-lg mb-2">臺灣人發明珍珠奶茶</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">冰紅茶、牛奶、糖加入黑糖粉圓。進而衍生出波霸奶茶、青蛙下蛋等兼具嚼勁與茶香的多元飲品。</p>
+                    </div>
+                    <div class="bg-amber-50/50 p-5 rounded-xl border border-amber-100 relative overflow-hidden">
+                        <div class="text-sm font-bold text-amber-700 bg-amber-200/50 px-2 py-1 rounded w-fit mb-2">傳播：21世紀</div>
+                        <h3 class="font-bold text-lg mb-2">風行全球的台灣之光</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">在倫敦蘇活區、紐約時代廣場，打著「原料來自臺灣」的珍珠奶茶店，將大膽創新的調配美感散播世界。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 語文讀寫：寫作結構就是「資訊工程」 -->
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100">
+                <div class="flex items-center space-x-2 mb-4 text-emerald-800">
+                    <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold">寫作結構就是「資訊工程」！</h2>
+                </div>
+                <p class="text-slate-600 mb-6 text-base">
+                    說明事物時，要怎麼介紹才能讓人一目了然？作者焦桐在文中使用了兩種高效率的「資訊模組」來建構文章：
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 分解說明 -->
+                    <div class="border-2 border-dashed border-amber-200 p-5 rounded-xl bg-amber-50/20">
+                        <h3 class="font-bold text-amber-900 text-lg flex items-center mb-3">
+                            <span class="bg-amber-100 text-amber-800 rounded-full w-7 h-7 flex items-center justify-center text-sm mr-2 font-mono">1</span>
+                            分解說明（時序演算法）
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                            將一個複雜的「動態過程」，依據「時間」或「因果」順序拆解成一個個具體、可單獨執行的微小步驟。
+                        </p>
+                        <div class="bg-amber-100/40 p-3 rounded-lg text-sm text-amber-950 space-y-1">
+                            <div class="font-bold mb-1 text-amber-900">粉圓製作步驟（演算法）：</div>
+                            <div class="flex flex-wrap gap-1 text-sm font-medium">
+                                <span class="bg-white px-2 py-0.5 rounded border border-amber-200">① 加水攪拌</span> ➔ 
+                                <span class="bg-white px-2 py-0.5 rounded border border-amber-200">② 搓揉成粒</span> ➔ 
+                                <span class="bg-white px-2 py-0.5 rounded border border-amber-200">③ 篩去餘粉</span> ➔ 
+                                <span class="bg-white px-2 py-0.5 rounded border border-amber-200">④ 滾水煮熟</span> ➔ 
+                                <span class="bg-white px-2 py-0.5 rounded border border-amber-200">⑤ 拌黑糖漿</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 舉例說明 -->
+                    <div class="border-2 border-dashed border-emerald-200 p-5 rounded-xl bg-emerald-50/10">
+                        <h3 class="font-bold text-emerald-900 text-lg flex items-center mb-3">
+                            <span class="bg-emerald-100 text-emerald-800 rounded-full w-7 h-7 flex items-center justify-center text-sm mr-2 font-mono">2</span>
+                            舉例說明（模式與關聯）
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                            當要表達一個抽象的概念（如「搭配的美感」）時，引用數個具體、讀者已知的實例，來支持與證實論點。
+                        </p>
+                        <div class="bg-emerald-100/30 p-3 rounded-lg text-sm text-emerald-950 space-y-1">
+                            <div class="font-bold mb-1 text-emerald-900">完美搭配的食物實例：</div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm font-medium">
+                                <span class="bg-white py-1 rounded border border-emerald-200">泡菜 ＆ 臭豆腐</span>
+                                <span class="bg-white py-1 rounded border border-emerald-200">油條 ＆ 豆漿</span>
+                                <span class="bg-white py-1 rounded border border-emerald-200">五味醬 ＆ 章魚</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 頁面二：智慧工廠 (方案 A) ==================== -->
+        <section id="tab-lab" class="tab-content hidden space-y-8 animate-fadeIn">
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-cyan-100">
+                <div class="flex items-center space-x-2 mb-2 text-cyan-800">
+                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold">粉圓製作演算法智慧工廠</h2>
+                </div>
+                <p class="text-slate-500 mb-6 text-sm leading-relaxed font-medium">
+                    說明文的<strong>「分解說明」</strong>，就像程式設計中的<strong>「演算法（Algorithm）」</strong>。步驟順序一旦發生衝突，系統就會崩潰！
+                    請點擊左側「原料積木」，將它們依時序送入右側的「組裝線插槽」。排完後點擊「啟動組裝線」進行編譯與科學除錯診斷！
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    
+                    <!-- 左側：步驟原料積木 (5 cols) -->
+                    <div class="lg:col-span-5 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-sm font-bold text-cyan-800 uppercase tracking-wider block">🛠️ 步驟原料池（隨機打亂）</span>
+                                <button onclick="resetFactory()" class="text-sm text-red-600 hover:text-red-800 font-bold flex items-center gap-1 transition">
+                                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> 重置組裝線
+                                </button>
+                            </div>
+                            <p class="text-sm text-slate-500 mb-4 font-medium">點擊積木送入智慧插槽中：</p>
+                            
+                            <!-- 步驟池 -->
+                            <div id="steps-pool" class="space-y-3">
+                                <!-- JS 動態生成 -->
+                            </div>
+                        </div>
+
+                        <!-- 寫作引導說明 -->
+                        <div class="bg-cyan-50/50 p-4 rounded-xl border border-cyan-100 shadow-sm mt-4">
+                            <h4 class="font-bold text-cyan-900 text-sm flex items-center gap-1.5 mb-1.5">
+                                <i data-lucide="lightbulb" class="w-4 h-4 text-cyan-600"></i> 為何分解說明是演算法？
+                            </h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                做粉圓時如果先「滾水煮熟」才「地瓜粉加水」，整鍋就會融化變成地瓜水。寫文章也是一樣的！邏輯上的因果時序如果錯亂，讀者的大腦就無法成功「執行」您要傳達的訊息。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 右側：智慧組裝流水線與動畫渲染 (7 cols) -->
+                    <div class="lg:col-span-7 flex flex-col space-y-4">
+                        
+                        <div class="blueprint-bg p-6 rounded-2xl border-2 border-cyan-500/30 shadow-2xl relative overflow-hidden text-cyan-400 font-mono-tech text-sm flex flex-col justify-between h-full min-h-[500px]">
+                            <!-- 裝飾晶片邊角與控制台文字 -->
+                            <div class="absolute top-2 right-3 text-xs text-cyan-600/70 text-right select-none leading-tight">
+                                COGNITIVE COMPILER V2.6<br>
+                                STATUS: ONLINE<br>
+                                CHANNELS: ACTIVE
+                            </div>
+
+                            <div class="border-b border-cyan-500/20 pb-3 mb-4">
+                                <div class="text-sm text-cyan-500 tracking-wider font-bold">SEQUENCE COMPILER // 時序編譯控制器</div>
+                                <h3 class="text-base font-black text-white mt-0.5 flex items-center gap-1.5">
+                                    ⚙️ 時序分解演算法組裝線
+                                </h3>
+                            </div>
+
+                            <!-- 5個組裝插槽 -->
+                            <div class="space-y-3 flex-grow mb-6">
+                                <div class="grid grid-cols-12 gap-2 items-center">
+                                    <span class="col-span-2 text-xs text-cyan-500/80 font-bold">SLOT_01</span>
+                                    <div onclick="removeStep(0)" id="slot-0" class="col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-400 text-sm">
+                                        <span class="text-slate-500 italic">空插槽 - 點選左側積木填入</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-2 items-center">
+                                    <span class="col-span-2 text-xs text-cyan-500/80 font-bold">SLOT_02</span>
+                                    <div onclick="removeStep(1)" id="slot-1" class="col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-400 text-sm">
+                                        <span class="text-slate-500 italic">空插槽 - 點選左側積木填入</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-2 items-center">
+                                    <span class="col-span-2 text-xs text-cyan-500/80 font-bold">SLOT_03</span>
+                                    <div onclick="removeStep(2)" id="slot-2" class="col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-400 text-sm">
+                                        <span class="text-slate-500 italic">空插槽 - 點選左側積木填入</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-2 items-center">
+                                    <span class="col-span-2 text-xs text-cyan-500/80 font-bold">SLOT_04</span>
+                                    <div onclick="removeStep(3)" id="slot-3" class="col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-400 text-sm">
+                                        <span class="text-slate-500 italic">空插槽 - 點選左側積木填入</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-2 items-center">
+                                    <span class="col-span-2 text-xs text-cyan-500/80 font-bold">SLOT_05</span>
+                                    <div onclick="removeStep(4)" id="slot-4" class="col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-400 text-sm">
+                                        <span class="text-slate-500 italic">空插槽 - 點選左側積木填入</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 診斷日誌與實時動畫區 -->
+                            <div class="mt-4 border-t border-cyan-500/20 pt-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                                <!-- 動畫渲染區 (5 cols) -->
+                                <div class="md:col-span-5 flex flex-col items-center justify-center bg-slate-950/80 border border-cyan-500/20 p-4 rounded-xl min-h-[140px] relative overflow-hidden">
+                                    <div class="absolute top-1 left-2 text-[8px] text-cyan-600 font-bold">PHYSICAL_SIM_01</div>
+                                    
+                                    <!-- 鍋體與科學反應動效 -->
+                                    <div id="pot-container" class="w-20 h-20 relative flex items-end justify-center">
+                                        
+                                        <!-- 滾水起泡 -->
+                                        <div id="boil-bubbles" class="absolute inset-x-0 bottom-2 top-4 hidden pointer-events-none">
+                                            <span class="w-1.5 h-1.5 bg-cyan-200/50 rounded-full absolute bottom-1 left-3 boiling-bubble"></span>
+                                            <span class="w-2 h-2 bg-cyan-200/40 rounded-full absolute bottom-1 left-6 boiling-bubble" style="animation-delay: 0.3s"></span>
+                                            <span class="w-1 h-1 bg-cyan-100/60 rounded-full absolute bottom-1 left-9 boiling-bubble" style="animation-delay: 0.6s"></span>
+                                            <span class="w-2.5 h-2.5 bg-cyan-200/30 rounded-full absolute bottom-1 left-12 boiling-bubble" style="animation-delay: 0.2s"></span>
+                                        </div>
+
+                                        <!-- 地瓜粉糰/珍珠液體反應物 -->
+                                        <div id="pot-inside" class="w-14 h-8 bg-amber-200/20 rounded-b-lg absolute bottom-1.5 transition-all duration-500"></div>
+                                        
+                                        <!-- 實體不銹鋼鍋 -->
+                                        <div class="w-16 h-14 border-2 border-slate-400 rounded-b-xl absolute bottom-1 flex items-center justify-center">
+                                            <!-- 攪拌器 -->
+                                            <div id="stirrer" class="w-1 h-11 bg-slate-400 origin-top transform rotate-0 transition-all duration-300"></div>
+                                        </div>
+                                        <!-- 火源 -->
+                                        <div id="fire" class="w-10 h-2 bg-red-500/10 rounded-full absolute -bottom-1 blur-xs transition-all duration-300"></div>
+                                    </div>
+
+                                    <span id="factory-status" class="mt-2 text-xs text-cyan-500 font-bold animate-pulse">待機中 (STANDBY)</span>
+                                </div>
+
+                                <!-- 日誌控制台 (7 cols) -->
+                                <div class="md:col-span-7 flex flex-col justify-between h-full space-y-2">
+                                    <div class="bg-slate-950 p-3 rounded-lg border border-cyan-500/20 min-h-[110px] font-mono-tech text-sm text-cyan-300 leading-relaxed overflow-y-auto max-h-[130px]">
+                                        <span class="text-cyan-600 font-bold block mb-1">▶ COMPILER DIAGNOSTIC LOGS:</span>
+                                        <p id="log-output">系統已就緒。請拼裝 5 大粉圓製作時序積木，點擊下方啟動按鈕進行演算法診斷編譯。</p>
+                                    </div>
+                                    <button onclick="compileSequence()" class="w-full bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 font-bold py-2.5 rounded-lg text-sm tracking-widest transition flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-500/20">
+                                        <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i> 啟動組裝線 (RUN DIAGNOSTICS)
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 頁面三：學習挑戰賽 ==================== -->
+        <section id="tab-challenge" class="tab-content hidden space-y-8 animate-fadeIn">
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100">
+                <div class="flex items-center space-x-2 mb-4 text-amber-800">
+                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                    <h2 class="text-2xl font-bold">學習挑戰賽：誰是珍奶大師？</h2>
+                </div>
+                <p class="text-slate-600 mb-6 text-sm md:text-base font-medium">請回答以下關於課文中飲食素養與說明文「資訊結構工程」的問題。獲得 100 分將獲發「榮譽證書」！</p>
+
+                <!-- 答題問題容器 -->
+                <div id="quiz-container" class="space-y-6">
+                    <!-- JS 動態注入 -->
+                </div>
+
+                <!-- 提交答案與結果證書發放 -->
+                <div class="mt-8 flex flex-col items-center justify-center p-6 border-t border-slate-100">
+                    <button onclick="submitQuiz()" class="bg-amber-600 text-white font-bold px-8 py-3 rounded-xl shadow-md hover:bg-amber-700 transition active:scale-95 flex items-center gap-2 text-sm md:text-base">
+                        <i data-lucide="award" class="w-5 h-5"></i> 提交答案並進行資格審查
+                    </button>
+                    
+                    <div id="quiz-result" class="mt-6 text-center hidden p-6 bg-amber-50 rounded-xl border border-amber-200 w-full max-w-2xl">
+                        <p class="text-2xl font-black text-amber-900" id="result-score">得分：0 / 100</p>
+                        <p class="text-slate-700 mt-2 text-sm leading-relaxed" id="result-text"></p>
+                    </div>
+
+                    <!-- 滿分榮譽證書區 -->
+                    <div id="certificate-area" class="mt-8 hidden w-full max-w-xl bg-white border-8 border-amber-800 p-8 rounded-2xl shadow-2xl relative text-center border-double select-none">
+                        <!-- 金黃色緞帶與邊角花紋 -->
+                        <div class="absolute top-2 left-2 text-amber-800 text-xl font-bold">✦</div>
+                        <div class="absolute top-2 right-2 text-amber-800 text-xl font-bold">✦</div>
+                        <div class="absolute bottom-2 left-2 text-amber-800 text-xl font-bold">✦</div>
+                        <div class="absolute bottom-2 right-2 text-amber-800 text-xl font-bold">✦</div>
+                        
+                        <div class="flex justify-center mb-3">
+                            <span class="text-5xl">🧋🏆🧋</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-amber-950 tracking-wider">珍珠奶茶結構工程師</h3>
+                        <h4 class="text-xs font-bold text-amber-700 tracking-widest mt-1">HONORARY CERTIFICATE OF ACHIEVEMENT</h4>
+                        
+                        <div class="border-t border-b border-amber-800/20 py-6 my-6 text-slate-700 space-y-4">
+                            <p class="text-sm">
+                                恭喜本學堂優秀學子
+                            </p>
+                            <div class="inline-block border-b-2 border-amber-900 px-6 py-1">
+                                <span class="font-bold text-amber-900 text-base placeholder-name" contenteditable="true">【 點此輸入您的姓名 】</span>
+                            </div>
+                            <p class="text-sm leading-relaxed text-slate-600 px-4">
+                                於第六課《珍珠奶茶》跨領域學習挑戰賽中表現卓越，獲得 <span class="text-emerald-600 font-black">100分滿分</span>！證明已完全理解說明文之「分解說明演算法」與「舉例說明搭配美感結構」，具備卓越的資訊傳播結構與健康飲食科技素養。
+                            </p>
+                        </div>
+                        
+                        <div class="flex justify-between items-end text-[11px] text-slate-500 px-4">
+                            <div class="text-left">
+                                <p>認證機構：AI 跨領域智慧教學網</p>
+                                <p>課程配合：國語六上第六課《珍珠奶茶》</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-mono-tech" id="cert-date">DATE: 2026.06.28</p>
+                                <p class="text-amber-800 font-bold">時序邏輯檢驗核可 ✓</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex justify-center gap-2">
+                            <button onclick="window.print()" class="text-xs bg-slate-800 text-white font-bold py-1.5 px-4 rounded-lg hover:bg-slate-700 transition flex items-center gap-1">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> 列印此證書
+                            </button>
+                            <button onclick="copyCertShareText()" class="text-xs bg-amber-600 text-white font-bold py-1.5 px-4 rounded-lg hover:bg-amber-700 transition flex items-center gap-1">
+                                <i data-lucide="share" class="w-3.5 h-3.5"></i> 複製分享賀詞
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm border-t border-slate-700">
+        <div class="max-w-6xl mx-auto px-4">
+            <p>【AI教學網站設計】配合國語六上第六課《珍珠奶茶》教材設計</p>
+            <p class="text-xs text-slate-500 mt-1">「堅持傳統，大膽創新，激盪出美麗火花。」</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 互動邏輯 -->
+    <script>
+        // 初始化 Lucide 圖示
+        lucide.createIcons();
+
+        // 頁面切換
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('block');
+
+            // 調整按鈕樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-600', 'text-white');
+                btn.classList.add('text-amber-800', 'hover:bg-amber-200');
+            });
+            document.getElementById(`btn-${tabId}`).classList.add('bg-amber-600', 'text-white');
+            document.getElementById(`btn-${tabId}`).classList.remove('text-amber-800', 'hover:bg-amber-200');
+            
+            playAudioPop();
+        }
+
+        // Web Audio API 聲音引擎 (100% 獨立不依賴外部資源)
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // 短暫氣泡音 (點擊步驟)
+        function playAudioPop() {
+            initAudio();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.12);
+        }
+
+        // 低音警告音 (編譯錯誤)
+        function playAudioError() {
+            initAudio();
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(90, audioCtx.currentTime + 0.3);
+            
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.35);
+        }
+
+        // 成功小和弦 (編譯完全正確)
+        function playAudioSuccess() {
+            initAudio();
+            if (!audioCtx) return;
+            const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+            notes.forEach((freq, index) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.12);
+                
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime + index * 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + index * 0.12 + 0.3);
+                
+                osc.start(audioCtx.currentTime + index * 0.12);
+                osc.stop(audioCtx.currentTime + index * 0.12 + 0.3);
+            });
+        }
+
+        // --- 粉圓智慧工廠邏輯 ---
+        const correctSteps = [
+            { id: "stir", text: "① 地瓜粉加水攪拌" },
+            { id: "roll", text: "② 搓揉成粒狀" },
+            { id: "sift", text: "③ 篩去多餘粉末" },
+            { id: "boil", text: "④ 放入滾水煮熟" },
+            { id: "sugar", text: "⑤ 冷卻後拌入黑糖漿" }
+        ];
+
+        let currentPool = [...correctSteps].sort(() => Math.random() - 0.5);
+        let slots = [null, null, null, null, null];
+
+        // 建立 Toast 通知，取代傳統 Alert
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = 'bg-slate-900 text-cyan-400 border border-cyan-500/30';
+            if (type === 'error') bgClass = 'bg-red-950 text-red-200 border border-red-500/30';
+            if (type === 'warning') bgClass = 'bg-amber-950 text-amber-200 border border-amber-500/30';
+            
+            toast.className = `p-4 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-semibold select-none pointer-events-auto transition-all duration-300 translate-x-12 opacity-0 max-w-sm ${bgClass}`;
+            
+            const icon = type === 'error' ? 'alert-triangle' : (type === 'warning' ? 'help-circle' : 'info');
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-5 h-5 flex-shrink-0"></i>
+                <div class="flex-grow">${message}</div>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+            
+            // 入場動畫
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 15);
+            
+            // 自動消失
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function renderPool() {
+            const poolContainer = document.getElementById('steps-pool');
+            poolContainer.innerHTML = '';
+            
+            currentPool.forEach((step, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 bg-white hover:bg-cyan-50/60 border border-slate-200 rounded-xl text-sm font-bold text-slate-700 flex items-center justify-between shadow-sm transition duration-150 hover:-translate-y-0.5 active:translate-y-0 active:scale-95";
+                btn.innerHTML = `
+                    <span class="flex items-center gap-2">🧱 <span class="step-txt">${step.text}</span></span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-cyan-500"></i>
+                `;
+                btn.onclick = () => addStepToSlots(step, index);
+                poolContainer.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        function renderSlots() {
+            for (let i = 0; i < 5; i++) {
+                const slotEl = document.getElementById(`slot-${i}`);
+                if (slots[i]) {
+                    slotEl.className = "col-span-10 border border-cyan-500 bg-cyan-950/40 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:bg-cyan-950/60 transition flex items-center justify-between text-cyan-300 font-bold text-sm shadow-md shadow-cyan-500/10 animate-scaleIn";
+                    slotEl.innerHTML = `
+                        <span>${slots[i].text}</span>
+                        <div class="flex items-center gap-1 text-xs text-red-400 font-semibold uppercase">
+                            <span>移除</span>
+                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        </div>
+                    `;
+                } else {
+                    slotEl.className = "col-span-10 border border-dashed border-cyan-500/30 bg-slate-950/60 p-2.5 rounded-lg min-h-[44px] cursor-pointer hover:border-cyan-400 transition flex items-center justify-between text-slate-500 text-sm";
+                    slotEl.innerHTML = `<span class="italic">空插槽 - 點選左側積木填入</span>`;
+                }
+            }
+            lucide.createIcons();
+        }
+
+        function addStepToSlots(step, poolIndex) {
+            playAudioPop();
+            const emptyIndex = slots.indexOf(null);
+            if (emptyIndex === -1) {
+                showToast("⚠️ 智慧流水線插槽已滿！請先點擊插槽移除積木再新增。", "warning");
+                return;
+            }
+            
+            slots[emptyIndex] = step;
+            currentPool.splice(poolIndex, 1);
+            
+            renderPool();
+            renderSlots();
+        }
+
+        function removeStep(slotIndex) {
+            if (!slots[slotIndex]) return;
+            playAudioPop();
+            
+            currentPool.push(slots[slotIndex]);
+            slots[slotIndex] = null;
+            
+            // 自動往前推排，不留空隙
+            slots = slots.filter(item => item !== null);
+            while (slots.length < 5) {
+                slots.push(null);
+            }
+            
+            renderPool();
+            renderSlots();
+        }
+
+        function resetFactory() {
+            playAudioPop();
+            currentPool = [...correctSteps].sort(() => Math.random() - 0.5);
+            slots = [null, null, null, null, null];
+            
+            // 重置動畫與物理效果
+            const potInside = document.getElementById('pot-inside');
+            const stirrer = document.getElementById('stirrer');
+            const fire = document.getElementById('fire');
+            const statusText = document.getElementById('factory-status');
+            const bubbles = document.getElementById('boil-bubbles');
+            
+            potInside.className = "w-14 h-8 bg-amber-200/20 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+            stirrer.className = "w-1 h-11 bg-slate-400 origin-top transform rotate-0 transition-all duration-300";
+            stirrer.classList.remove('stirring-active');
+            fire.className = "w-10 h-2 bg-red-500/10 rounded-full absolute -bottom-1 blur-xs transition-all duration-300";
+            bubbles.classList.add('hidden');
+            
+            statusText.innerText = "待機中 (STANDBY)";
+            statusText.className = "mt-2 text-xs text-cyan-500 font-bold animate-pulse";
+            
+            document.getElementById('log-output').innerHTML = "系統已完成重置。請拼裝 5 大粉圓製作時序積木，點擊下方啟動按鈕進行演算法診斷編譯。";
+            
+            renderPool();
+            renderSlots();
+            showToast("智慧工廠已重置！時序步驟已打亂。");
+        }
+
+        function compileSequence() {
+            const logEl = document.getElementById('log-output');
+            const statusText = document.getElementById('factory-status');
+            const potInside = document.getElementById('pot-inside');
+            const stirrer = document.getElementById('stirrer');
+            const fire = document.getElementById('fire');
+            const bubbles = document.getElementById('boil-bubbles');
+
+            const filledCount = slots.filter(item => item !== null).length;
+            if (filledCount < 5) {
+                playAudioError();
+                logEl.innerHTML = `<span class="text-red-400">🚨 系統異常 (INCOMPLETE_ERROR)：</span><br>組裝線尚未完全填滿，目前僅有 ${filledCount}/5 組裝完成。時序流程不完整將會導致系統不可逆損壞。`;
+                showToast("智慧流水線未完整！請放滿5大工序。", "error");
+                return;
+            }
+
+            // 開始編譯分析
+            logEl.innerHTML = "🔍 正在對組裝線順序進行邏輯封裝分析與因果對照...<br>";
+            statusText.innerText = "邏輯編譯中 (COMPILING)";
+            statusText.className = "mt-2 text-xs text-amber-500 font-bold animate-pulse";
+
+            setTimeout(() => {
+                const currentSequence = slots.map(s => s.id);
+
+                // 時序除錯 1：第一步不為攪拌
+                if (currentSequence[0] !== 'stir') {
+                    playAudioError();
+                    let errMsg = "";
+                    if (currentSequence[0] === 'roll') {
+                        errMsg = "🚨 除錯診斷：[ERR_LACK_DISSOLUTION]<br>您企圖在『地瓜粉加水攪拌』前直接『搓揉成粒狀』。乾燥的地瓜乾粉缺少水分的氫鍵交織，根本無法聚合！您將獲得漫天飛舞的地瓜乾粉塵。";
+                    } else if (currentSequence[0] === 'boil') {
+                        errMsg = "🚨 除錯診斷：[ERR_CHOP_LIQUEFACTION]<br>嚴重錯誤！您將乾燥的地瓜粉直接灑入『滾水煮熟』。這將使地瓜粉表皮快速受熱融化，在中心完全夾生的狀態下瞬間融合成一大鍋黏糊糊、毫無顆粒的黏稠澱粉湯糊！";
+                    } else {
+                        errMsg = "🚨 除錯診斷：[ERR_LOGICAL_COLLAPSE]<br>順序嚴重衝突。缺少攪拌，後續所有篩粉與熬煮皆喪失了物理原料基礎。";
+                    }
+                    logEl.innerHTML += `<span class="text-red-400">${errMsg}</span>`;
+                    statusText.innerText = "編譯崩潰 (ERR_STARCH_FAIL)";
+                    statusText.className = "mt-2 text-xs text-red-500 font-bold";
+                    potInside.className = "w-14 h-8 bg-red-500/40 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+                    showToast("邏輯編譯失敗！請參閱除錯診斷日誌。", "error");
+                    return;
+                }
+
+                // 時序除錯 2：第二步不為搓揉
+                if (currentSequence[1] !== 'roll') {
+                    playAudioError();
+                    let errMsg = "";
+                    if (currentSequence[1] === 'boil') {
+                        errMsg = "🚨 除錯診斷：[ERR_MASSIVE_DOUGH_BOIL]<br>您把剛攪拌好的巨型濕粉糰直接丟進『滾水煮熟』！滾水熱量無法穿透龐大的黏性中心，只有最外層熟化，内部仍是乾粉。您將獲得一坨煮不透、嚼不動的巨型死麵糰！";
+                    } else if (currentSequence[1] === 'sugar') {
+                        errMsg = "🚨 除錯診斷：[ERR_GLUCOSE_INTERACTION]<br>攪拌後直接拌入黑糖。糖分子會阻斷麵粉蛋白質與澱粉的鍵結，整坨粉糰會被糖液稀釋成滑溜多水的糖泥，完全無法塑型！";
+                    } else {
+                        errMsg = "🚨 除錯診斷：[ERR_SEQUENCE_CONFLICT]<br>未成型大粉糰不具備篩去餘粉的基礎物理條件。";
+                    }
+                    logEl.innerHTML += `<span class="text-red-400">${errMsg}</span>`;
+                    statusText.innerText = "編譯崩潰 (ERR_SHAPE_FAIL)";
+                    statusText.className = "mt-2 text-xs text-red-500 font-bold";
+                    potInside.className = "w-14 h-8 bg-amber-800/40 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+                    showToast("時序因果關係不成立！請重新排查。", "error");
+                    return;
+                }
+
+                // 時序除錯 3：第三步不為篩粉
+                if (currentSequence[2] !== 'sift') {
+                    playAudioError();
+                    let errMsg = "";
+                    if (currentSequence[2] === 'boil') {
+                        errMsg = "🚨 除錯診斷：[ERR_MASS_COAGULATION]<br>您省略了『篩去多餘粉末』，直接將粉圓投入『滾水煮熟』！粉圓表面殘留的乾燥粉塵會在高溫水中瞬間溶解成黏性極高的大白芡汁，導致整鍋粉圓在熱水中互相沾黏、形成一個巨型的蜂巢狀珍珠糰塊，製程報廢！";
+                    } else {
+                        errMsg = "🚨 除錯診斷：[ERR_DUST_INTERFERENCE]<br>未篩去乾粉粉塵即拌糖。乾粉塵與黑糖漿混合會結成細小粉疙瘩，下鍋時會在珍珠表皮結成疙瘩硬殼，嚴重摧毀嚼勁！";
+                    }
+                    logEl.innerHTML += `<span class="text-red-400">${errMsg}</span>`;
+                    statusText.innerText = "編譯崩潰 (ERR_SIFT_OMITTED)";
+                    statusText.className = "mt-2 text-xs text-red-500 font-bold";
+                    showToast("缺少過濾機制！粉圓會黏死在一起喔！", "error");
+                    return;
+                }
+
+                // 時序除錯 4：第四步不為煮熟
+                if (currentSequence[3] !== 'boil') {
+                    playAudioError();
+                    logEl.innerHTML += `<span class="text-red-400">🚨 除錯診斷：[ERR_STARCH_RETARDATION]<br>您在尚未高溫煮熟的生粉圓上直接淋入黑糖漿！高濃度的黑糖漿具有極強的吸水與阻滲物理效應，會把粉圓表皮細胞的水分往外吸，導致熱水無法再滲入粉圓核心。不論您煮多久，粉圓內部都會嚴重夾生、堅硬無比！</span>`;
+                    statusText.innerText = "編譯崩潰 (ERR_SUGAR_BLOCK_HEAT)";
+                    statusText.className = "mt-2 text-xs text-red-500 font-bold";
+                    showToast("調味順序太早！澱粉會無法糊化熟透。", "error");
+                    return;
+                }
+
+                // 完全正確！(stir -> roll -> sift -> boil -> sugar)
+                playAudioSuccess();
+                logEl.innerHTML += `<span class="text-emerald-400 font-bold">✨ 編譯分析 100% 成功！</span><br>極佳的時序邏輯！這正是最完美的『分解說明時序演算法』！系統確認安全，正式啟動生產動態仿真流程...<br>`;
+                runProductionAnimation();
+
+            }, 1000);
+        }
+
+        function runProductionAnimation() {
+            const logEl = document.getElementById('log-output');
+            const statusText = document.getElementById('factory-status');
+            const potInside = document.getElementById('pot-inside');
+            const stirrer = document.getElementById('stirrer');
+            const fire = document.getElementById('fire');
+            const bubbles = document.getElementById('boil-bubbles');
+
+            let timeline = [
+                {
+                    delay: 400,
+                    text: "⚡ 步驟 1/5 [加水攪拌]：攪拌槳全速運轉。水分子滲入地瓜粉隙縫，微觀分子形成完美高柔韌粉糰...",
+                    action: () => {
+                        potInside.className = "w-14 h-8 bg-amber-100 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+                        stirrer.classList.add('stirring-active');
+                    }
+                },
+                {
+                    delay: 2400,
+                    text: "⚡ 步驟 2/5 [搓揉成粒]：粉糰經精準切割，高速搓揉。大粉糰成功分化成上百顆晶瑩飽滿的微型生粉圓...",
+                    action: () => {
+                        stirrer.classList.remove('stirring-active');
+                        potInside.className = "w-14 h-8 bg-amber-50 rounded-b-lg absolute bottom-1.5 transition-all duration-500 animate-bounce";
+                    }
+                },
+                {
+                    delay: 4400,
+                    text: "⚡ 步驟 3/5 [篩去餘粉]：篩網高頻振盪。珍珠表面的浮游乾燥粉塵全數濾除，解鎖防沾黏保護層...",
+                    action: () => {
+                        potInside.classList.remove('animate-bounce');
+                        potInside.className = "w-14 h-8 bg-amber-50/90 border-2 border-dashed border-cyan-400/30 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+                    }
+                },
+                {
+                    delay: 6400,
+                    text: "⚡ 步驟 4/5 [滾水煮熟]：熱源滿載！100°C沸水滾動。澱粉開始糊化（Gelatinization），物理質地轉化為半透明晶透與Q彈...",
+                    action: () => {
+                        fire.className = "w-12 h-3 bg-red-600 rounded-full absolute -bottom-1 blur-xs transition-all duration-300 animate-ping";
+                        bubbles.classList.remove('hidden');
+                        potInside.className = "w-14 h-9 bg-amber-900/60 rounded-b-lg absolute bottom-1.5 transition-all duration-500 animate-pulse";
+                    }
+                },
+                {
+                    delay: 8400,
+                    text: "⚡ 步驟 5/5 [冷卻拌黑糖]：物理冰鎮冷凝鎖住彈力勁道！高雅濃醇的黑糖漿完美包覆每一顆珍珠...",
+                    action: () => {
+                        fire.className = "w-10 h-2 bg-red-500/10 rounded-full absolute -bottom-1 blur-xs transition-all duration-300";
+                        bubbles.classList.add('hidden');
+                        potInside.className = "w-14 h-9 bg-stone-950 rounded-b-lg absolute bottom-1.5 transition-all duration-500";
+                    }
+                },
+                {
+                    delay: 10400,
+                    text: "🏆 工廠生產完畢！您的『分解說明演算法』非常精密，成功調製出香氣四溢、風靡全球的「臺灣之光」！",
+                    action: () => {
+                        statusText.innerText = "製程穩定運行中 (SUCCESS)";
+                        statusText.className = "mt-2 text-xs text-emerald-400 font-bold";
+                        showToast("🎉 粉圓生產完美成功！時序演算法運行暢通！");
+                    }
+                }
+            ];
+
+            timeline.forEach(step => {
+                setTimeout(() => {
+                    logEl.innerHTML += `<span class="text-cyan-300 block mb-1">${step.text}</span>`;
+                    logEl.scrollTop = logEl.scrollHeight; // 自動下拉日誌滾動條
+                    step.action();
+                }, step.delay);
+            });
+        }
+
+        // 初始化第一次
+        resetFactory();
+
+        // --- 學習挑戰賽數據 ---
+        const quizData = [
+            {
+                id: 1,
+                question: "1. 課文提到「寧可三日無糧，不可一日無茶」這句話最早是用來形容哪一個事件中人們對茶的喜愛？",
+                options: [
+                    "臺灣人在一九八〇年代發明珍珠奶茶",
+                    "倫敦蘇活區的英國人喜愛台灣茶葉原料",
+                    "唐朝西藏的松贊干布與文成公主愛上奶茶"
+                ],
+                answer: 2,
+                explain: "課文中提到，文成公主嫁給西藏松贊干布時帶去茶葉，傳授烹茶技術並用牛奶、羊奶熬煮。據說他們愛上了清香美味的奶茶，到了「寧可三日無糧，不可一日無茶」的地步。"
+            },
+            {
+                id: 2,
+                question: "2. 關於「粉圓」的製作過程，課文運用了什麼說明方法來寫作？",
+                options: [
+                    "舉例說明（舉出很多食物搭配的例子）",
+                    "分解說明（拆解攪拌、搓揉、篩粉、滾水煮熟、冷卻等步驟）",
+                    "比較說明（將地瓜粉與化學添加粉進行優缺點對比）"
+                ],
+                answer: 1,
+                explain: "課文將地瓜粉加水攪拌、搓揉成粒、篩去多餘粉末、滾水煮熟、拌黑糖等「動態過程」拆解並逐步說明，讓人一目了然，這正是「分解說明」的手法。"
+            },
+            {
+                id: 3,
+                question: "3. 課文中所提到的「娛樂食物」主要有哪些特點？",
+                options: [
+                    "純天然、低卡路里，能夠完美呈現食材原本的原味與健康",
+                    "高熱量、高脂、高鹽，不呈現食物原味，全方位滿足人們味覺快感",
+                    "製作工序非常複雜、需要代代相傳很久的傳統科技手藝"
+                ],
+                answer: 1,
+                explain: "課文說明奶精的味道香濃，是一種「娛樂食物」，這類食物多含高熱量、高脂、高鹽，不呈現食物原本的美味，會使人習慣添加物而難以接受真實的味道。"
+            },
+            {
+                id: 4,
+                question: "4. 下列何者屬於課文中「永不交集的食物平行線，卻在巧思中創造出平衡美感」的隱喻？",
+                options: [
+                    "泡菜與臭豆腐、油條與豆漿",
+                    "貢丸湯與清蒸肉圓、白飯與稀飯",
+                    "麻婆豆腐與涼拌豆腐"
+                ],
+                answer: 0,
+                explain: "課文第七頁提到：「這類例子在食物中還不少，例如：泡菜與臭豆腐，油條與豆漿，五味醬之於章魚。它們看似永不交集的平行線，卻能快樂平衡，創造出奇蹟。」"
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((q, idx) => `
+                <div class="p-5 border border-slate-200 rounded-xl space-y-3 bg-slate-50">
+                    <h3 class="font-bold text-slate-800 text-sm md:text-base">${q.question}</h3>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, optIdx) => `
+                            <label class="flex items-start space-x-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-amber-50/50 transition">
+                                <input type="radio" name="q-${q.id}" value="${optIdx}" class="mt-1 accent-amber-600">
+                                <span class="text-sm text-slate-700 leading-relaxed">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div id="explain-${q.id}" class="hidden p-3 bg-emerald-50 text-emerald-800 text-sm rounded-lg mt-2 leading-relaxed">
+                        <strong>解析：</strong>${q.explain}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            quizData.forEach(q => {
+                const selected = document.querySelector(`input[name="q-${q.id}"]:checked`);
+                const explainEl = document.getElementById(`explain-${q.id}`);
+                
+                // 顯示解析
+                explainEl.classList.remove('hidden');
+
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score += 25;
+                }
+            });
+
+            const resultContainer = document.getElementById('quiz-result');
+            const resultScore = document.getElementById('result-score');
+            const resultText = document.getElementById('result-text');
+            const certArea = document.getElementById('certificate-area');
+
+            resultContainer.classList.remove('hidden');
+            resultScore.innerText = `最終得分：${score} / 100`;
+
+            if (score === 100) {
+                playAudioSuccess();
+                resultText.innerHTML = "🎉 完美！您已完美理解說明文的『分解時序』與『舉例平衡』結構！大門為您敞開，獲得高榮譽認證！";
+                certArea.classList.remove('hidden');
+                
+                // 設定日期
+                const today = new Date();
+                document.getElementById('cert-date').innerText = `DATE: ${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+                
+                showToast("🏆 獲得滿分 100 分！解鎖「榮譽證書」！");
+            } else {
+                playAudioError();
+                certArea.classList.add('hidden');
+                if (score >= 50) {
+                    resultText.innerHTML = "👍 表現不錯！對食物搭配與製作時序有基本認識。請參考下方解析修正答錯的題，嘗試挑戰 100 分拿證書吧！";
+                    showToast(`測驗完成，獲得 ${score} 分。`, "warning");
+                } else {
+                    resultText.innerHTML = "🥤 加把勁喔！建議點擊「知識探索」再次閱讀課文的核心要點，然後在「結構演算法室」多加練習！";
+                    showToast(`獲得 ${score} 分。請多看課文喔！`, "error");
+                }
+            }
+
+            // 平滑滾動至結果
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyCertShareText() {
+            const userName = document.querySelector('.placeholder-name').innerText.trim();
+            const textToCopy = `🏆 賀！我（${userName}）在《珍珠奶茶》跨領域時序演算法學習挑戰賽中獲得了「100分滿分」！成功解鎖並獲頒「珍珠奶茶結構工程師榮譽證書」！🎉 快來一起挑戰，拆解說明文的資訊結構吧！`;
+            
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            try {
+                document.execCommand("copy");
+                showToast("📋 分享賀詞已成功複製到剪貼簿！");
+            } catch (err) {
+                showToast("複製失敗，請手動複製。", "error");
+            }
+            document.body.removeChild(tempTextArea);
+        }
+
+        // 初始化題目
+        renderQuiz();
+    </script>
+</body>
+</html>
